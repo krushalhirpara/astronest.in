@@ -7,8 +7,7 @@ import fs from 'fs';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
-
-// Load environment variables from root .env
+// Load environment variables from root .env or server .env
 dotenv.config({ path: path.join(__dirname, '../.env') });
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 dotenv.config();
@@ -17,21 +16,63 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); // In production, you should restrict this to your frontend URL
+app.use(cors());
 app.use(express.json());
 
-// Resolve client/dist path for serving production frontend
-const clientDistPath = [
-  path.resolve(process.cwd(), 'client/dist'),
-  path.join(__dirname, '../client/dist'),
-  path.join(__dirname, '../../client/dist')
-].find(p => fs.existsSync(p)) || path.resolve(process.cwd(), 'client/dist');
+// Helper function to reliably resolve client/dist across local & Railway environments
+function findClientDist(): string {
+  const candidatePaths = [
+    path.resolve(process.cwd(), 'client/dist'),
+    path.resolve(process.cwd(), '../client/dist'),
+    path.resolve(__dirname, '../client/dist'),
+    path.resolve(__dirname, '../../client/dist'),
+    path.resolve(__dirname, '../../../client/dist'),
+    path.resolve(process.env.INIT_CWD || '', 'client/dist'),
+  ];
 
+  for (const candidate of candidatePaths) {
+    if (candidate && fs.existsSync(path.join(candidate, 'index.html'))) {
+      console.log(`[Server] Found client build at: ${candidate}`);
+      return candidate;
+    }
+  }
+
+  // Upward traversal from __dirname
+  let curr = __dirname;
+  for (let i = 0; i < 5; i++) {
+    const testPath = path.join(curr, 'client/dist');
+    if (fs.existsSync(path.join(testPath, 'index.html'))) {
+      console.log(`[Server] Found client build via __dirname traversal at: ${testPath}`);
+      return testPath;
+    }
+    const parent = path.dirname(curr);
+    if (parent === curr) break;
+    curr = parent;
+  }
+
+  // Upward traversal from process.cwd()
+  curr = process.cwd();
+  for (let i = 0; i < 5; i++) {
+    const testPath = path.join(curr, 'client/dist');
+    if (fs.existsSync(path.join(testPath, 'index.html'))) {
+      console.log(`[Server] Found client build via process.cwd() traversal at: ${testPath}`);
+      return testPath;
+    }
+    const parent = path.dirname(curr);
+    if (parent === curr) break;
+    curr = parent;
+  }
+
+  const defaultFallback = path.resolve(process.cwd(), 'client/dist');
+  console.warn(`[Server Warning] client/dist/index.html not found. Defaulting path to: ${defaultFallback}`);
+  return defaultFallback;
+}
+
+const clientDistPath = findClientDist();
+
+// Register Express static middleware to serve JS, CSS, images from client/dist
 if (fs.existsSync(clientDistPath)) {
-  console.log(`Serving static files from: ${clientDistPath}`);
   app.use(express.static(clientDistPath));
-} else {
-  console.warn(`Warning: Client dist directory not found at ${clientDistPath}`);
 }
 
 const openai = new OpenAI({
@@ -43,10 +84,9 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET || '',
 });
 
-
-// Health check
+// Backend API Routes (Defined before SPA fallback)
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'AstroNest Backend is running! 🚀' });
+  res.json({ status: 'ok', message: 'AstroNest API is operational' });
 });
 
 // OpenAI Chat Endpoint
@@ -159,14 +199,17 @@ app.post('/api/payment/verify', async (req: any, res: any) => {
   }
 });
 
-
-// SPA routing fallback: serve index.html for non-API routes
+// SPA Routing Fallback: serve index.html for all non-API GET requests
 app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+
   const indexPath = path.join(clientDistPath, 'index.html');
   if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
+    return res.sendFile(indexPath);
   } else {
-    res.status(404).send('AstroNest Backend is running! (Frontend build not found)');
+    return res.status(500).send('Production build error: client/dist/index.html not found on server.');
   }
 });
 
