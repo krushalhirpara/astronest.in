@@ -33,6 +33,10 @@ dist-ssr
 
 .vercel
 .env
+.env.*
+!.env.example
+client/.env
+server/.env
 client/dist
 server/dist
 node_modules/
