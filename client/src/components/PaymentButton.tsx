@@ -29,7 +29,7 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({ amount, planName, 
     setLoading(true);
     try {
       // 1. Create order on backend
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
       const response = await fetch(`${backendUrl}/api/payment/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

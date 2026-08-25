@@ -3,12 +3,15 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
 import path from 'path';
+import fs from 'fs';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
 
 // Load environment variables from root .env
 dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -16,6 +19,20 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors()); // In production, you should restrict this to your frontend URL
 app.use(express.json());
+
+// Resolve client/dist path for serving production frontend
+const clientDistPath = [
+  path.resolve(process.cwd(), 'client/dist'),
+  path.join(__dirname, '../client/dist'),
+  path.join(__dirname, '../../client/dist')
+].find(p => fs.existsSync(p)) || path.resolve(process.cwd(), 'client/dist');
+
+if (fs.existsSync(clientDistPath)) {
+  console.log(`Serving static files from: ${clientDistPath}`);
+  app.use(express.static(clientDistPath));
+} else {
+  console.warn(`Warning: Client dist directory not found at ${clientDistPath}`);
+}
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -28,8 +45,8 @@ const razorpay = new Razorpay({
 
 
 // Health check
-app.get('/', (req, res) => {
-  res.send('AstroNest Backend is running! 🚀');
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'AstroNest Backend is running! 🚀' });
 });
 
 // OpenAI Chat Endpoint
@@ -143,6 +160,16 @@ app.post('/api/payment/verify', async (req: any, res: any) => {
 });
 
 
+// SPA routing fallback: serve index.html for non-API routes
+app.get('*', (req, res) => {
+  const indexPath = path.join(clientDistPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('AstroNest Backend is running! (Frontend build not found)');
+  }
+});
+
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });

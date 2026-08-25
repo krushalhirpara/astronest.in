@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bot, Send, Sparkles, Lock, Loader2 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useAuth } from '@/hooks/useAuth';
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '';
 
 const Chatbot = () => {
   const { user, isLoading } = useAuth();
