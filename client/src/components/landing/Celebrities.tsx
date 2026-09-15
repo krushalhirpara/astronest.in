@@ -29,6 +29,10 @@ export function Celebrities() {
                 <img
                   src={c.image}
                   alt={c.name}
+                  width={288}
+                  height={360}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     // Fallback in case of image load error

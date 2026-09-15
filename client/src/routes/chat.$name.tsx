@@ -1,5 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Chat } from "@/pages/Chat";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/chat/$name")({
   validateSearch: (search: Record<string, unknown>) => {
@@ -7,5 +6,5 @@ export const Route = createFileRoute("/chat/$name")({
       paid: (search.paid as boolean) || false,
     };
   },
-  component: Chat,
+  component: lazyRouteComponent(() => import("@/pages/Chat").then(m => ({ default: m.Chat }))),
 });

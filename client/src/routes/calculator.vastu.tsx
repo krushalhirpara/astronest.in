@@ -1,6 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import Vastu from "@/pages/calculators/Vastu";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/calculator/vastu")({
-  component: Vastu,
+  component: lazyRouteComponent(() => import("@/pages/calculators/Vastu")),
 });

@@ -1,8 +1,14 @@
+import React, { lazy, Suspense } from "react";
 import { Sparkles, Star, Users, Globe, Gift, ArrowRight, MessageCircle } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import cosmicHero from "@/assets/cosmic-hero.jpg";
-import { CosmicCanvas } from "@/components/cosmic-orbit/CosmicCanvas";
 import { CosmicSettings } from "@/components/cosmic-orbit/types";
+
+const CosmicCanvas = lazy(() =>
+  import("@/components/cosmic-orbit/CosmicCanvas").then((m) => ({
+    default: m.CosmicCanvas,
+  }))
+);
 
 const defaultCosmicSettings: CosmicSettings = {
   isPlaying: true,
@@ -27,7 +33,9 @@ export function Hero() {
     <section className="relative min-h-screen pt-28 md:pt-36 pb-10 md:pb-14 font-poppins overflow-hidden flex flex-col justify-center">
       {/* 3D WebGL Cosmic Orbit Background */}
       <div className="absolute inset-0 w-full h-full -z-10 pointer-events-none opacity-90">
-        <CosmicCanvas settings={defaultCosmicSettings} />
+        <Suspense fallback={<div className="w-full h-full bg-[#020208]" />}>
+          <CosmicCanvas settings={defaultCosmicSettings} />
+        </Suspense>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 relative z-10">
@@ -72,6 +80,10 @@ export function Hero() {
               <img
                 src={cosmicHero}
                 alt="AI Astrology Hero"
+                width={1200}
+                height={675}
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover:scale-105"
               />
               

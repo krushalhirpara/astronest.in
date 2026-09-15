@@ -534,17 +534,48 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
           y: sy,
           visible: sunScreenPos.z <= 1 && sx > 0 && sx < width && sy > 0 && sy < height,
         });
+        setPlanetLabels(newLabelCoords);
       }
-
-      setPlanetLabels(newLabelCoords);
 
       renderer.render(scene, camera);
     };
+
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const nowVisible = entry.isIntersecting && document.visibilityState === 'visible';
+        if (nowVisible && !isVisible) {
+          isVisible = true;
+          lastTime = performance.now();
+          animate();
+        } else if (!nowVisible) {
+          isVisible = false;
+          cancelAnimationFrame(animationFrameId);
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        isVisible = false;
+        cancelAnimationFrame(animationFrameId);
+      } else if (containerRef.current) {
+        isVisible = true;
+        lastTime = performance.now();
+        animate();
+      }
+    };
+
+    observer.observe(container);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     animate();
 
     // Clean up
     return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       domElem.removeEventListener('mousedown', handlePointerDown);

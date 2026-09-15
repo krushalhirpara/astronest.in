@@ -1,6 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import LovePrediction from "@/pages/predictions/LovePrediction";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/prediction/love")({
-  component: LovePrediction,
+  component: lazyRouteComponent(() => import("@/pages/predictions/LovePrediction")),
 });

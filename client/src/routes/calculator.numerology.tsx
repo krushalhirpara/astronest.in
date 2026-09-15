@@ -1,6 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import Numerology from "@/pages/calculators/Numerology";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/calculator/numerology")({
-  component: Numerology,
+  component: lazyRouteComponent(() => import("@/pages/calculators/Numerology")),
 });

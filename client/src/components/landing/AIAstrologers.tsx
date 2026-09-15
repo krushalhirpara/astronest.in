@@ -108,6 +108,10 @@ export const AIAstrologers = () => {
                   <img
                     src={astrologer.image}
                     alt={astrologer.name}
+                    width={240}
+                    height={240}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 dark:from-black/80 via-transparent to-transparent opacity-60"></div>

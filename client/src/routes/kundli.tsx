@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import Kundli from "@/pages/Kundli";
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/kundli")({
-  component: Kundli,
+  component: lazyRouteComponent(() => import("@/pages/Kundli")),
 });
+

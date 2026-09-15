@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
 import path from 'path';
@@ -14,6 +15,9 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Enable HTTP compression for all responses (Gzip / Deflate)
+app.use(compression());
 
 // Middleware
 app.use(cors());
@@ -70,21 +74,55 @@ function findClientDist(): string {
 
 const clientDistPath = findClientDist();
 
-// Register Express static middleware to serve JS, CSS, images from client/dist
+// Register Express static middleware with production caching strategy
 if (fs.existsSync(clientDistPath)) {
-  app.use(express.static(clientDistPath));
+  app.use(
+    express.static(clientDistPath, {
+      setHeaders: (res, filePath) => {
+        // Vite hashed assets in /assets/ get 1-year immutable caching
+        if (filePath.includes(path.sep + 'assets' + path.sep) || filePath.includes('/assets/')) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+        } else {
+          res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+        }
+      },
+    })
+  );
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Lazy client initializers for instant cold start
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return _openai;
+}
+
+let _razorpay: Razorpay | null = null;
+function getRazorpay(): Razorpay {
+  if (!_razorpay) {
+    _razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID || '',
+      key_secret: process.env.RAZORPAY_KEY_SECRET || '',
+    });
+  }
+  return _razorpay;
+}
+
+// Ensure API routes are never cached by CDNs or proxies
+app.use('/api', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
 });
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || '',
-  key_secret: process.env.RAZORPAY_KEY_SECRET || '',
-});
-
-// Backend API Routes (Defined before SPA fallback)
+// Backend API Routes
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'AstroNest API is operational' });
 });
@@ -117,7 +155,8 @@ app.post('/api/chat', async (req: any, res: any) => {
       messages.push({ role: "user", content: message });
     }
 
-    const response = await openai.chat.completions.create({
+    const openaiClient = getOpenAI();
+    const response = await openaiClient.chat.completions.create({
       model: "gpt-4o-mini",
       messages: messages,
       response_format: response_format || { type: "text" }
@@ -159,7 +198,8 @@ app.post('/api/payment/create-order', async (req: any, res: any) => {
       receipt: `receipt_${Date.now()}`,
     };
 
-    const order = await razorpay.orders.create(options);
+    const razorpayClient = getRazorpay();
+    const order = await razorpayClient.orders.create(options);
     res.json(order);
   } catch (error: any) {
     console.error('Razorpay Order Error:', error);
@@ -207,6 +247,7 @@ app.get('*', (req, res) => {
 
   const indexPath = path.join(clientDistPath, 'index.html');
   if (fs.existsSync(indexPath)) {
+    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
     return res.sendFile(indexPath);
   } else {
     return res.status(500).send('Production build error: client/dist/index.html not found on server.');
@@ -216,3 +257,4 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+

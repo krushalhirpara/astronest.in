@@ -29,5 +29,20 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
+    target: "es2020",
+    minify: "esbuild",
+    cssMinify: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom"],
+          "vendor-router": ["@tanstack/react-router", "@tanstack/react-query"],
+          "vendor-three": ["three"],
+          "vendor-charts": ["recharts"],
+          "vendor-icons": ["lucide-react"],
+        },
+      },
+    },
   },
 });
