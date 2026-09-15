@@ -109,11 +109,31 @@ export function Navbar() {
                   activeProps={{ className: "text-purple-950 bg-white font-extrabold shadow-md" }}
                   inactiveProps={{ className: "text-white/90 hover:text-white hover:bg-white/15 font-bold" }}
                   className={cn(
-                    "flex items-center gap-1 px-4 py-2 text-sm font-bold rounded-full transition-all duration-300 drop-shadow-sm"
+                    "flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-full transition-all duration-300 drop-shadow-sm cursor-pointer"
                   )}
                 >
-                  {item.label}
+                  <span>{item.label}</span>
+                  {item.dropdownItems && (
+                    <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
+                  )}
                 </Link>
+
+                {item.dropdownItems && (
+                  <div className="absolute top-full left-0 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                    <div className="w-56 bg-[#0F0F1F]/95 backdrop-blur-2xl border border-white/15 rounded-2xl p-2 shadow-2xl space-y-1">
+                      {item.dropdownItems.map((sub) => (
+                        <Link
+                          key={sub.label}
+                          to={sub.to}
+                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-gray-300 hover:text-white hover:bg-purple-600/20 rounded-xl transition-all"
+                        >
+                          <span className="text-purple-400">{sub.icon}</span>
+                          <span>{sub.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>

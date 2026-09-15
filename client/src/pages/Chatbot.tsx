@@ -82,45 +82,15 @@ const Chatbot = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="h-screen bg-background flex items-center justify-center">
-      <Loader2 className="w-12 h-12 text-purple-500 animate-spin" />
-    </div>;
-  }
-
-  if (!user) {
     return (
-      <div className="pt-24 h-screen flex flex-col items-center justify-center bg-background text-white p-6">
-        <div className="glass p-12 rounded-[40px] border border-white/10 text-center max-w-md relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <Bot className="w-32 h-32 text-purple-500" />
-          </div>
-          <div className="w-20 h-20 bg-cosmic/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Lock className="w-10 h-10 text-purple-400" />
-          </div>
-          <h2 className="text-3xl font-bold mb-4 font-display">Chat Restricted</h2>
-          <p className="text-muted-foreground mb-8">
-            Access to our specialized AI Astro Assistant is reserved for registered members. Sign up now to explore your future.
-          </p>
-          <div className="flex flex-col gap-4">
-            <Link 
-              to="/login" 
-              className="w-full py-4 bg-cosmic text-white rounded-2xl font-bold shadow-glow hover:scale-105 transition-all text-center"
-            >
-              Log In
-            </Link>
-            <Link 
-              to="/signup" 
-              className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-bold hover:bg-white/10 transition-all text-center"
-            >
-              Sign Up Free
-            </Link>
-          </div>
-        </div>
+      <div className="h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-12 h-12 text-purple-500 animate-spin" />
       </div>
     );
   }
+
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-28 pb-12">
       <div className="w-full max-w-[700px]">
         <div className="glass rounded-3xl overflow-hidden flex flex-col h-[80vh] shadow-glow">
           {/* Chat Header */}

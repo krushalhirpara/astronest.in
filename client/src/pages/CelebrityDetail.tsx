@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from '@tanstack/react-router';
-import { ArrowLeft, Star, MapPin, Calendar, Briefcase, Sparkles, User, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, Briefcase, Sparkles, User, ShieldCheck, Lock } from 'lucide-react';
 import { getCelebrityBySlug } from '@/lib/celebrityData';
 
 const CelebrityDetail = () => {

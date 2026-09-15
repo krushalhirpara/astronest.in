@@ -29,23 +29,14 @@ export const AIAstrologers = () => {
     : astrologers.filter(a => a.category === activeCategory);
 
   const handleChatClick = (astrologer: Astrologer) => {
-    const action = () => {
-      if (astrologer.isPaid) {
-        setSelectedAstrologer(astrologer);
-        setIsPaymentOpen(true);
-      } else {
-        navigate({
-          to: '/chat/$name',
-          params: { name: astrologer.id }
-        });
-      }
-    };
-
-    if (!user) {
-      setPendingAction(() => action);
-      setIsAuthOpen(true);
+    if (astrologer.isPaid) {
+      setSelectedAstrologer(astrologer);
+      setIsPaymentOpen(true);
     } else {
-      action();
+      navigate({
+        to: '/chat/$name',
+        params: { name: astrologer.id }
+      });
     }
   };
 

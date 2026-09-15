@@ -1,4 +1,5 @@
 import { Sparkles, Instagram, Twitter, Youtube, Facebook } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function Footer() {
   return (
@@ -30,23 +31,43 @@ export function Footer() {
           {/* Links Columns */}
           <div className="space-y-6">
             <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white">Platform</h4>
-            <ul className="space-y-4">
-              {['Daily Horoscope', 'Free Kundli', 'AI Chat', 'Zodiac Guides'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">{item}</a>
-                </li>
-              ))}
+            <ul className="space-y-3">
+              <li>
+                <Link to="/horoscope" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Daily Horoscope</Link>
+              </li>
+              <li>
+                <Link to="/kundli" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Free Janam Kundli</Link>
+              </li>
+              <li>
+                <Link to="/chatbot" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">AI Astro Chatbot</Link>
+              </li>
+              <li>
+                <Link to="/astrologers" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Vedic Astrologers</Link>
+              </li>
+              <li>
+                <Link to="/prediction" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Predictions</Link>
+              </li>
             </ul>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white">Resources</h4>
-            <ul className="space-y-4">
-              {['Community', 'Learning Hub', 'Support', 'API Access'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">{item}</a>
-                </li>
-              ))}
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white">Calculators</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/calculator/love" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Love Calculator</Link>
+              </li>
+              <li>
+                <Link to="/calculator/numerology" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Numerology</Link>
+              </li>
+              <li>
+                <Link to="/calculator/vastu" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Vastu Shastra</Link>
+              </li>
+              <li>
+                <Link to="/calculator/muhurat" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Shubh Muhurat</Link>
+              </li>
+              <li>
+                <Link to="/calculator" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">All Calculators</Link>
+              </li>
             </ul>
           </div>
 

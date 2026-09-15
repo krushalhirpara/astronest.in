@@ -3,11 +3,15 @@ import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from '@tanstack/react-router';
 
+import { toast } from 'sonner';
+
 interface GoogleButtonProps {
-  onError: (error: string) => void;
+  onError?: (error: string) => void;
+  onSuccess?: () => void;
+  onClick?: () => Promise<void>;
 }
 
-export const GoogleButton: React.FC<GoogleButtonProps> = ({ onError }) => {
+export const GoogleButton: React.FC<GoogleButtonProps> = ({ onError, onSuccess, onClick }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { handleGoogleLogin } = useAuth();
   const navigate = useNavigate();
@@ -15,12 +19,25 @@ export const GoogleButton: React.FC<GoogleButtonProps> = ({ onError }) => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await handleGoogleLogin();
-      navigate({ to: '/' });
+      if (onClick) {
+        await onClick();
+      } else {
+        await handleGoogleLogin();
+      }
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate({ to: '/' });
+      }
     } catch (error: any) {
       console.error('Google Sign-In Failed', error);
       if (error.code !== 'auth/cancelled-popup-request' && error.code !== 'auth/popup-closed-by-user') {
-        onError('Google Sign-In failed. Please check your project configuration.');
+        const msg = 'Google Sign-In failed. Please check your project configuration.';
+        if (onError) {
+          onError(msg);
+        } else {
+          toast.error(msg);
+        }
       }
     } finally {
       setIsLoading(false);

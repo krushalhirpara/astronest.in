@@ -71,7 +71,7 @@ export const Chat = () => {
     if (e) e.preventDefault();
 
     const textToSend = inputText.trim();
-    if (!textToSend || !isAuthorized || !user) return;
+    if (!textToSend || isAuthorized === false || isTyping) return;
 
     const userMessage = {
       id: Date.now(),
@@ -81,82 +81,99 @@ export const Chat = () => {
       lang: selectedLang
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
     setInputText('');
     setIsTyping(true);
 
-    // Simulated Auto-Detection & Translation logic
+    // Auto-Detection for regional scripts
     const hasHindi = /[\u0900-\u097F]/.test(textToSend);
     const hasGujarati = /[\u0A80-\u0AFF]/.test(textToSend);
     
+    let currentLang = selectedLang;
     if (hasHindi && selectedLang !== 'hi') {
-      toast.info("Detected Hindi. Switching to Hindi for better insights.");
+      currentLang = 'hi';
       setSelectedLang('hi');
+      toast.info("Switched to Hindi.");
     } else if (hasGujarati && selectedLang !== 'gu') {
-      toast.info("Detected Gujarati. Switching to Gujarati.");
+      currentLang = 'gu';
       setSelectedLang('gu');
+      toast.info("Switched to Gujarati.");
     }
 
-    // Simulate AI Response with "Translation"
-    setTimeout(() => {
-      let replyText = "The celestial bodies indicate a positive shift in your energy. I am analyzing your charts now.";
-      
-      const currentLang = hasHindi ? 'hi' : hasGujarati ? 'gu' : selectedLang;
+    try {
+      const systemPrompt = `You are ${astrologer?.name || 'Pandit Arjun Sharma'}, a highly respected Vedic Astrologer specializing in ${astrologer?.specialization || 'Vedic Astrology'} (${astrologer?.category || 'General'}). 
+${astrologer?.bio || 'Vedic wisdom and astrological insight.'}
 
-      if (currentLang === 'hi') {
-        replyText = "आकाशीय पिंड आपकी ऊर्जा में सकारात्मक बदलाव का संकेत दे रहे हैं। मैं अभी आपके चार्ट का विश्लेषण कर रहा हूँ।";
-      } else if (currentLang === 'gu') {
-        replyText = "આકાશી પદાર્થો તમારી ઉર્જામાં સકારાત્મક પરિવર્તન સૂચવે છે. હું અત્યારે તમારા ચાર્ટનું વિશ્લેષણ કરી રહ્યો છું.";
-      } else if (currentLang === 'ta') {
-        replyText = "விண்வெளிப் பொருட்கள் உங்கள் ஆற்றலில் நேர்மறையான மாற்றத்தைக் காட்டுகின்றன. நான் இப்போது உங்கள் விளக்கப்படங்களை ஆய்வு செய்கிறேன்.";
+CORE GUIDELINES:
+1. Provide authentic Vedic astrology insight (planets, dashas, houses, kundli, gemstones, remedies).
+2. The present year is 2026.
+3. Respond in ${currentLang === 'hi' ? 'Hindi' : currentLang === 'gu' ? 'Gujarati' : currentLang === 'ta' ? 'Tamil' : currentLang === 'te' ? 'Telugu' : 'English'}. If the user addresses you in another language, mirror their language.
+4. Tone: Compassionate, wise, authentic, and reassuring.`;
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: textToSend,
+          history: nextMessages.slice(-6).map((msg) => ({
+            role: msg.sender === 'user' ? 'user' : 'assistant',
+            content: msg.text,
+          })),
+          systemPrompt,
+        }),
+      });
+
+      const data = await response.json();
+
+      let replyText = data.reply;
+      if (!replyText) {
+        if (currentLang === 'hi') {
+          replyText = "ग्रहों की स्थिति आपके लिए अनुकूल समय दर्शा रही है। आपके जन्म विवरण के अनुसार जल्द ही शुभ परिणाम मिलेंगे।";
+        } else if (currentLang === 'gu') {
+          replyText = "ગ્રહોની સ્થિતિ તમારા માટે અનુકૂળ સમય દર્શાવે છે. ટૂંક સમયમાં તમને શુભ પરિણામો મળશે.";
+        } else {
+          replyText = "The celestial bodies indicate a positive transformation in your life path. Guided by planetary wisdom, your current cycle points towards growth.";
+        }
       }
 
-      setMessages(prev => [...prev, {
-        id: Date.now() + 1,
-        text: replyText,
-        sender: 'ai',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        lang: currentLang
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          text: replyText,
+          sender: 'ai',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          lang: currentLang,
+        },
+      ]);
+    } catch (error) {
+      console.error('Astrologer chat error:', error);
+      let fallback = "The celestial energies are strong. Focus your intention on clarity and positive actions today.";
+      if (currentLang === 'hi') {
+        fallback = "आकाशीय ऊर्जा सकारात्मक बदलाव का संकेत दे रही है। धैर्य और कर्म पर विश्वास रखें।";
+      } else if (currentLang === 'gu') {
+        fallback = "આકાશી ઉર્જા સકારાત્મક પરિવર્તન દર્શાવે છે. ધીરજ અને કર્મ પર વિશ્વાસ રાખો.";
+      }
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          text: fallback,
+          sender: 'ai',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          lang: currentLang,
+        },
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 2000);
+    }
   };
 
   if (isLoading || isAuthorized === null) {
-    return <div className="h-screen bg-background flex items-center justify-center">
-      <Loader2 className="w-12 h-12 text-purple-500 animate-spin" />
-    </div>;
-  }
-
-  if (!user) {
     return (
-      <div className="pt-24 h-screen flex flex-col items-center justify-center bg-background text-white p-6">
-        <div className="glass p-12 rounded-[40px] border border-white/10 text-center max-w-md relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <Sparkles className="w-32 h-32 text-purple-500" />
-          </div>
-          <div className="w-20 h-20 bg-cosmic/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Lock className="w-10 h-10 text-purple-400" />
-          </div>
-          <h2 className="text-3xl font-bold mb-4 font-display">Authentication Required</h2>
-          <p className="text-muted-foreground mb-8">
-            Please log in or create an account to start your personalized consultation.
-          </p>
-          <div className="flex flex-col gap-4">
-            <Link
-              to="/login"
-              className="w-full py-4 bg-cosmic text-white rounded-2xl font-bold shadow-glow hover:scale-105 transition-all text-center"
-            >
-              Log In
-            </Link>
-            <Link
-              to="/signup"
-              className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-bold hover:bg-white/10 transition-all text-center"
-            >
-              Sign Up Free
-            </Link>
-          </div>
-        </div>
+      <div className="h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-12 h-12 text-purple-500 animate-spin" />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import { Sparkles, Star } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { celebrities } from "@/lib/celebrityData";
 
 export function Celebrities() {
@@ -21,9 +22,11 @@ export function Celebrities() {
       <div className="mt-10 overflow-x-auto pb-6 scrollbar-hide">
         <div className="mx-auto flex w-max gap-6 px-4 md:px-6">
           {celebrities.map((c) => (
-            <div
+            <Link
               key={c.slug}
-              className="group w-72 flex-shrink-0 overflow-hidden rounded-xl bg-white dark:bg-[#0F0F1F] border border-purple-100 dark:border-white/10 p-4 transition-all duration-300 shadow-md dark:shadow-none hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-2 cursor-default"
+              to="/celebrity/$slug"
+              params={{ slug: c.slug }}
+              className="group w-72 flex-shrink-0 overflow-hidden rounded-xl bg-white dark:bg-[#0F0F1F] border border-purple-100 dark:border-white/10 p-4 transition-all duration-300 shadow-md dark:shadow-none hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-2 cursor-pointer block"
             >
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
                 <img
@@ -72,7 +75,7 @@ export function Celebrities() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

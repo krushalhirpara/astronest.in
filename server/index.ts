@@ -239,12 +239,13 @@ app.post('/api/payment/verify', async (req: any, res: any) => {
   }
 });
 
-// SPA Routing Fallback: serve index.html for all non-API GET requests
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api/')) {
-    return res.status(404).json({ error: 'API endpoint not found' });
-  }
+// Catch-all for unhandled API requests (all HTTP methods)
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
 
+// SPA Routing Fallback: serve index.html for all frontend GET requests
+app.get('*', (req, res) => {
   const indexPath = path.join(clientDistPath, 'index.html');
   if (fs.existsSync(indexPath)) {
     res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');

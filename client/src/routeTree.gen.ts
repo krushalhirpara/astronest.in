@@ -28,9 +28,6 @@ import { Route as CalculatorVastuRouteImport } from './routes/calculator.vastu'
 import { Route as CalculatorNumerologyRouteImport } from './routes/calculator.numerology'
 import { Route as CalculatorMuhuratRouteImport } from './routes/calculator.muhurat'
 import { Route as CalculatorLoveRouteImport } from './routes/calculator.love'
-import { Route as ApiChatRouteImport } from './routes/api.chat'
-import { Route as ApiAuthSignupRouteImport } from './routes/api.auth.signup'
-import { Route as ApiAuthLoginRouteImport } from './routes/api.auth.login'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -127,21 +124,6 @@ const CalculatorLoveRoute = CalculatorLoveRouteImport.update({
   path: '/calculator/love',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAuthSignupRoute = ApiAuthSignupRouteImport.update({
-  id: '/api/auth/signup',
-  path: '/api/auth/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAuthLoginRoute = ApiAuthLoginRouteImport.update({
-  id: '/api/auth/login',
-  path: '/api/auth/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -151,7 +133,6 @@ export interface FileRoutesByFullPath {
   '/kundli': typeof KundliRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/api/chat': typeof ApiChatRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -164,8 +145,6 @@ export interface FileRoutesByFullPath {
   '/prediction/love': typeof PredictionLoveRoute
   '/calculator/': typeof CalculatorIndexRoute
   '/prediction/': typeof PredictionIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
-  '/api/auth/signup': typeof ApiAuthSignupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -175,7 +154,6 @@ export interface FileRoutesByTo {
   '/kundli': typeof KundliRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/api/chat': typeof ApiChatRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -188,8 +166,6 @@ export interface FileRoutesByTo {
   '/prediction/love': typeof PredictionLoveRoute
   '/calculator': typeof CalculatorIndexRoute
   '/prediction': typeof PredictionIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
-  '/api/auth/signup': typeof ApiAuthSignupRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -200,7 +176,6 @@ export interface FileRoutesById {
   '/kundli': typeof KundliRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/api/chat': typeof ApiChatRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -213,8 +188,6 @@ export interface FileRoutesById {
   '/prediction/love': typeof PredictionLoveRoute
   '/calculator/': typeof CalculatorIndexRoute
   '/prediction/': typeof PredictionIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
-  '/api/auth/signup': typeof ApiAuthSignupRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -226,7 +199,6 @@ export interface FileRouteTypes {
     | '/kundli'
     | '/login'
     | '/signup'
-    | '/api/chat'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -239,8 +211,6 @@ export interface FileRouteTypes {
     | '/prediction/love'
     | '/calculator/'
     | '/prediction/'
-    | '/api/auth/login'
-    | '/api/auth/signup'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -250,7 +220,6 @@ export interface FileRouteTypes {
     | '/kundli'
     | '/login'
     | '/signup'
-    | '/api/chat'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -263,8 +232,6 @@ export interface FileRouteTypes {
     | '/prediction/love'
     | '/calculator'
     | '/prediction'
-    | '/api/auth/login'
-    | '/api/auth/signup'
   id:
     | '__root__'
     | '/'
@@ -274,7 +241,6 @@ export interface FileRouteTypes {
     | '/kundli'
     | '/login'
     | '/signup'
-    | '/api/chat'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -287,8 +253,6 @@ export interface FileRouteTypes {
     | '/prediction/love'
     | '/calculator/'
     | '/prediction/'
-    | '/api/auth/login'
-    | '/api/auth/signup'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -299,7 +263,6 @@ export interface RootRouteChildren {
   KundliRoute: typeof KundliRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  ApiChatRoute: typeof ApiChatRoute
   CalculatorLoveRoute: typeof CalculatorLoveRoute
   CalculatorMuhuratRoute: typeof CalculatorMuhuratRoute
   CalculatorNumerologyRoute: typeof CalculatorNumerologyRoute
@@ -312,8 +275,6 @@ export interface RootRouteChildren {
   PredictionLoveRoute: typeof PredictionLoveRoute
   CalculatorIndexRoute: typeof CalculatorIndexRoute
   PredictionIndexRoute: typeof PredictionIndexRoute
-  ApiAuthLoginRoute: typeof ApiAuthLoginRoute
-  ApiAuthSignupRoute: typeof ApiAuthSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -451,27 +412,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorLoveRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/signup': {
-      id: '/api/auth/signup'
-      path: '/api/auth/signup'
-      fullPath: '/api/auth/signup'
-      preLoaderRoute: typeof ApiAuthSignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/login': {
-      id: '/api/auth/login'
-      path: '/api/auth/login'
-      fullPath: '/api/auth/login'
-      preLoaderRoute: typeof ApiAuthLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -483,7 +423,6 @@ const rootRouteChildren: RootRouteChildren = {
   KundliRoute: KundliRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  ApiChatRoute: ApiChatRoute,
   CalculatorLoveRoute: CalculatorLoveRoute,
   CalculatorMuhuratRoute: CalculatorMuhuratRoute,
   CalculatorNumerologyRoute: CalculatorNumerologyRoute,
@@ -496,18 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   PredictionLoveRoute: PredictionLoveRoute,
   CalculatorIndexRoute: CalculatorIndexRoute,
   PredictionIndexRoute: PredictionIndexRoute,
-  ApiAuthLoginRoute: ApiAuthLoginRoute,
-  ApiAuthSignupRoute: ApiAuthSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

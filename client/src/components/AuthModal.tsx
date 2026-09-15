@@ -98,7 +98,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           </form>
 
           <div className="mt-8">
-            <GoogleButton onClick={handleGoogleLogin} />
+            <GoogleButton 
+              onClick={handleGoogleLogin} 
+              onSuccess={() => {
+                resetForm();
+                onClose();
+                if (onSuccess) onSuccess();
+              }}
+              onError={(err) => setError(err)}
+            />
           </div>
         </div>
       </DialogContent>
