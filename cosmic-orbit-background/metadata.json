@@ -1,6 +1,0 @@
-{
-  "name": "Cosmic Orbit Background",
-  "description": "An interactive animated 3D space background with orbiting planets, glowing accretion disk, particle nebulae, and customizable orbital perspective.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
