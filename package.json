@@ -2,7 +2,6 @@
   "name": "astronest",
   "version": "1.0.0",
   "private": true,
-  "description": "AstroNest full-stack application for single Railway service deployment",
   "workspaces": [
     "client",
     "server"
@@ -11,8 +10,7 @@
     "build:client": "npm run build --prefix client",
     "build:server": "npm run build --prefix server",
     "build": "npm run build:client && npm run build:server",
-    "start": "node server/dist/index.js",
-    "dev": "npm run dev --prefix server"
+    "start": "node server/dist/index.js"
   },
   "engines": {
     "node": ">=18.0.0"
