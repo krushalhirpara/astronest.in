@@ -326,25 +326,27 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
     };
 
     const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+      if (!isMouseDown) return;
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-      if (isMouseDown) {
-        const deltaX = clientX - previousMousePosition.x;
-        const deltaY = clientY - previousMousePosition.y;
+      const deltaX = clientX - previousMousePosition.x;
+      const deltaY = clientY - previousMousePosition.y;
 
-        cameraRotationY -= deltaX * 0.005;
-        cameraRotationX = THREE.MathUtils.clamp(
-          cameraRotationX + deltaY * 0.005,
-          0.05,
-          Math.PI / 2.2
-        );
+      cameraRotationY -= deltaX * 0.005;
+      cameraRotationX = THREE.MathUtils.clamp(
+        cameraRotationX + deltaY * 0.005,
+        0.05,
+        Math.PI / 2.2
+      );
 
-        previousMousePosition = { x: clientX, y: clientY };
-      }
+      previousMousePosition = { x: clientX, y: clientY };
     };
 
     const handlePointerUp = (e: MouseEvent | TouchEvent) => {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+
       const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as MouseEvent).clientX;
       const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : (e as MouseEvent).clientY;
 
@@ -353,10 +355,8 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
         clientY - previousMousePosition.y
       );
 
-      isMouseDown = false;
-
       // Click / Tap detection if mouse didn't drag significantly
-      if (distMoved < 6 && onSelectPlanet) {
+      if (distMoved < 6 && onSelectPlanet && renderer.domElement) {
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
@@ -405,6 +405,7 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       if (!containerRef.current) return;
       const w = containerRef.current.clientWidth;
       const h = containerRef.current.clientHeight;
+      if (w === 0 || h === 0) return;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
@@ -414,18 +415,19 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
     // 9. Animation Loop
     let animationFrameId: number;
     const clock = new THREE.Clock();
+    let frameCount = 0;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      frameCount++;
 
-      const delta = clock.getDelta();
+      const delta = Math.min(clock.getDelta(), 0.1);
       const st = settingsRef.current;
 
       // A. Update Camera Position based on preset or custom Orbit controls
       const camDist = st.cameraDistance;
 
       if (st.cameraPreset === 'reference') {
-        // Match the user's uploaded image perspective (tilted elliptical galaxy view)
         cameraRotationX = THREE.MathUtils.degToRad(32);
         if (st.autoRotateCamera) {
           cameraRotationY += delta * 0.05;
@@ -498,14 +500,13 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
           pObj.selectionHighlight.visible = false;
         }
 
-        // Project 3D position to 2D Screen Space for HTML Labels
-        if (st.showLabels) {
+        // Project 3D position to 2D Screen Space for HTML Labels (throttle label updates to every 4 frames)
+        if (st.showLabels && frameCount % 4 === 0) {
           const planetWorldPos = new THREE.Vector3();
           pObj.group.getWorldPosition(planetWorldPos);
 
           const screenPos = planetWorldPos.clone().project(camera);
 
-          // Convert normalized device coordinates to screen pixels
           const sx = (screenPos.x * 0.5 + 0.5) * width;
           const sy = (-(screenPos.y * 0.5) + 0.5) * height;
 
@@ -522,7 +523,7 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       });
 
       // Sun Label position
-      if (st.showLabels) {
+      if (st.showLabels && frameCount % 4 === 0) {
         const sunWorldPos = new THREE.Vector3(0, 0, 0);
         const sunScreenPos = sunWorldPos.project(camera);
         const sx = (sunScreenPos.x * 0.5 + 0.5) * width;
@@ -541,12 +542,15 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
     };
 
     let isVisible = true;
+    let lastTime = performance.now();
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         const nowVisible = entry.isIntersecting && document.visibilityState === 'visible';
         if (nowVisible && !isVisible) {
           isVisible = true;
           lastTime = performance.now();
+          clock.getDelta(); // reset delta
           animate();
         } else if (!nowVisible) {
           isVisible = false;
@@ -563,6 +567,7 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       } else if (containerRef.current) {
         isVisible = true;
         lastTime = performance.now();
+        clock.getDelta(); // reset delta
         animate();
       }
     };
@@ -586,13 +591,38 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       window.removeEventListener('touchend', handlePointerUp);
       domElem.removeEventListener('wheel', handleWheel);
 
+      // Dispose all planet resources
+      planetObjects.forEach((pObj) => {
+        pObj.mesh.geometry.dispose();
+        if (Array.isArray(pObj.mesh.material)) {
+          pObj.mesh.material.forEach((m) => m.dispose());
+        } else {
+          pObj.mesh.material.dispose();
+        }
+        pObj.orbitLine.geometry.dispose();
+        (pObj.orbitLine.material as THREE.Material).dispose();
+        pObj.selectionHighlight.geometry.dispose();
+        (pObj.selectionHighlight.material as THREE.Material).dispose();
+        pObj.moonsMeshes.forEach((m) => {
+          m.mesh.geometry.dispose();
+          if (Array.isArray(m.mesh.material)) {
+            m.mesh.material.forEach((mat) => mat.dispose());
+          } else {
+            m.mesh.material.dispose();
+          }
+        });
+      });
+
       renderer.dispose();
       dustGeo.dispose();
       dustMat.dispose();
+      starsGeo.dispose();
+      starsMat.dispose();
       sunGeo.dispose();
       sunMat.dispose();
       sunTexture.dispose();
       starGlowTex.dispose();
+      glowSpriteMat.dispose();
     };
   }, []);
 
