@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from '@tanstack/react-router';
 import { ArrowLeft, Star, MapPin, Calendar, Briefcase, Sparkles, User, ShieldCheck, Lock } from 'lucide-react';
 import { getCelebrityBySlug } from '@/lib/celebrityData';
+import { Seo } from '@/seo/Seo';
+import { getBreadcrumbSchema } from '@/seo/structuredData';
 
 const CelebrityDetail = () => {
   const { slug } = useParams({ from: '/celebrity/$slug' });
@@ -9,10 +11,7 @@ const CelebrityDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (celebrity) {
-      document.title = `AstroNest - ${celebrity.name}'s Kundli`;
-    }
-    const timer = setTimeout(() => setLoading(false), 500);
+    const timer = setTimeout(() => setLoading(false), 300);
     return () => clearTimeout(timer);
   }, [celebrity]);
 
@@ -36,8 +35,21 @@ const CelebrityDetail = () => {
     );
   }
 
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: `${celebrity.name} Kundli`, url: `/celebrity/${celebrity.slug}` }
+  ];
+
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-background">
+    <>
+      <Seo
+        title={`${celebrity.name}'s Janam Kundli & Astrology Analysis | AstroNest`}
+        description={`Explore ${celebrity.name}'s Vedic birth chart, planetary alignments (${celebrity.zodiac}), and life path analysis.`}
+        canonical={`https://astronest.in/celebrity/${celebrity.slug}`}
+        ogImage={celebrity.image}
+        structuredData={[getBreadcrumbSchema(breadcrumbs)]}
+      />
+      <div className="pt-32 pb-24 min-h-screen bg-background">
       <div className="container max-w-6xl px-4 mx-auto">
         {/* Back Link */}
         <Link 
@@ -165,7 +177,8 @@ const CelebrityDetail = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default CelebrityDetail;

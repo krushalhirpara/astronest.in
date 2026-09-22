@@ -57,7 +57,7 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       alpha: true,
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
 
@@ -413,11 +413,13 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
     window.addEventListener('resize', handleResize);
 
     // 9. Animation Loop
-    let animationFrameId: number;
+    let animationFrameId: number = 0;
+    let isRunning = false;
     const clock = new THREE.Clock();
     let frameCount = 0;
 
     const animate = () => {
+      if (!isRunning) return;
       animationFrameId = requestAnimationFrame(animate);
       frameCount++;
 
@@ -541,20 +543,40 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
       renderer.render(scene, camera);
     };
 
-    let isVisible = true;
-    let lastTime = performance.now();
+    const prefersReducedMotion = () => {
+      return (
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      );
+    };
+
+    const startAnimation = () => {
+      if (isRunning) return;
+      if (prefersReducedMotion()) {
+        renderer.render(scene, camera);
+        return;
+      }
+      isRunning = true;
+      clock.getDelta();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const stopAnimation = () => {
+      isRunning = false;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         const nowVisible = entry.isIntersecting && document.visibilityState === 'visible';
-        if (nowVisible && !isVisible) {
-          isVisible = true;
-          lastTime = performance.now();
-          clock.getDelta(); // reset delta
-          animate();
-        } else if (!nowVisible) {
-          isVisible = false;
-          cancelAnimationFrame(animationFrameId);
+        if (nowVisible) {
+          startAnimation();
+        } else {
+          stopAnimation();
         }
       },
       { threshold: 0.05 }
@@ -562,26 +584,22 @@ export const CosmicCanvas: React.FC<CosmicCanvasProps> = ({
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
-        isVisible = false;
-        cancelAnimationFrame(animationFrameId);
+        stopAnimation();
       } else if (containerRef.current) {
-        isVisible = true;
-        lastTime = performance.now();
-        clock.getDelta(); // reset delta
-        animate();
+        startAnimation();
       }
     };
 
     observer.observe(container);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    animate();
+    startAnimation();
 
     // Clean up
     return () => {
       observer.disconnect();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      cancelAnimationFrame(animationFrameId);
+      stopAnimation();
       window.removeEventListener('resize', handleResize);
       domElem.removeEventListener('mousedown', handlePointerDown);
       window.removeEventListener('mousemove', handlePointerMove);

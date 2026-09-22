@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { User, Calendar, MapPin, Clock, Sparkles, Loader2, Info, Moon, Sun, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Calendar, MapPin, Clock, Sparkles, Loader2, Info, Moon, Sun, Star, ArrowRight } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 import { cn } from '../lib/utils';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
+import { getBreadcrumbSchema, getSoftwareAppSchema } from '@/seo/structuredData';
 
 interface KundliFormData {
   name: string;
@@ -29,9 +33,15 @@ const Kundli = () => {
   const [result, setResult] = useState<KundliResult | null>(null);
   const [errors, setErrors] = useState<Partial<KundliFormData>>({});
 
-  useEffect(() => {
-    document.title = "AstroNest - Kundli";
-  }, []);
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "Janam Kundli", url: "/kundli" }
+  ];
+
+  const structuredData = [
+    getBreadcrumbSchema(breadcrumbs),
+    getSoftwareAppSchema("Free Online Kundli", "Generate accurate Janam Kundli online with Vedic planetary positions and predictions.", "/kundli")
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -89,12 +99,19 @@ const Kundli = () => {
   };
 
   return (
-    <div className="pt-32 pb-24 min-h-screen">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white font-display mb-4">Generate Your Janam Kundli</h1>
-          <p className="text-muted-foreground">Enter your birth details to get a detailed Vedic birth chart and analysis.</p>
-        </div>
+    <>
+      <Seo
+        title={pageSeoConfig.kundli.title}
+        description={pageSeoConfig.kundli.description}
+        canonical={pageSeoConfig.kundli.canonical}
+        structuredData={structuredData}
+      />
+      <div className="pt-32 pb-24 min-h-screen">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-white font-display mb-4">Generate Your Janam Kundli</h1>
+            <p className="text-muted-foreground">Enter your birth details to get a detailed Vedic birth chart and analysis.</p>
+          </div>
 
         <div className="glass p-8 md:p-12 rounded-[40px] border border-white/10 relative overflow-hidden mb-12">
           <div className="absolute top-0 right-0 p-8 opacity-20">
@@ -253,9 +270,39 @@ const Kundli = () => {
             </div>
           </div>
         )}
+
+        {/* Internal Cross-links */}
+        <div className="mt-12 p-6 rounded-3xl glass border border-white/10 text-center">
+          <h3 className="text-lg font-bold text-white mb-2">Looking for More Astrological Insights?</h3>
+          <p className="text-xs text-gray-400 max-w-lg mx-auto mb-4">
+            Check marriage compatibility with 36 Gunas Gun Milan or learn about the 12 houses and planetary alignments.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/kundli-matching"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-semibold hover:bg-purple-600/50 transition-colors"
+            >
+              Match Kundli for Marriage
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              to="/vedic-astrology"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:bg-white/10 transition-colors"
+            >
+              Vedic Astrology Guide
+            </Link>
+            <Link
+              to="/horoscope"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:bg-white/10 transition-colors"
+            >
+              Today's Horoscope
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default Kundli;

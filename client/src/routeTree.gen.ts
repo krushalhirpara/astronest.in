@@ -9,49 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as KundliRouteImport } from './routes/kundli'
-import { Route as HoroscopeRouteImport } from './routes/horoscope'
-import { Route as ChatbotRouteImport } from './routes/chatbot'
-import { Route as AstrologersRouteImport } from './routes/astrologers'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PredictionIndexRouteImport } from './routes/prediction.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AstrologersRouteImport } from './routes/astrologers'
+import { Route as ChatbotRouteImport } from './routes/chatbot'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as HoroscopeRouteImport } from './routes/horoscope'
+import { Route as KundliRouteImport } from './routes/kundli'
+import { Route as KundliMatchingRouteImport } from './routes/kundli-matching'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as VedicAstrologyRouteImport } from './routes/vedic-astrology'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CalculatorIndexRouteImport } from './routes/calculator.index'
-import { Route as PredictionLoveRouteImport } from './routes/prediction.love'
-import { Route as PredictionHealthRouteImport } from './routes/prediction.health'
-import { Route as PredictionFutureRouteImport } from './routes/prediction.future'
-import { Route as PredictionCareerRouteImport } from './routes/prediction.career'
-import { Route as ChatNameRouteImport } from './routes/chat.$name'
-import { Route as CelebritySlugRouteImport } from './routes/celebrity.$slug'
-import { Route as CalculatorVastuRouteImport } from './routes/calculator.vastu'
-import { Route as CalculatorNumerologyRouteImport } from './routes/calculator.numerology'
-import { Route as CalculatorMuhuratRouteImport } from './routes/calculator.muhurat'
 import { Route as CalculatorLoveRouteImport } from './routes/calculator.love'
+import { Route as CalculatorMuhuratRouteImport } from './routes/calculator.muhurat'
+import { Route as CalculatorNumerologyRouteImport } from './routes/calculator.numerology'
+import { Route as CalculatorVastuRouteImport } from './routes/calculator.vastu'
+import { Route as CelebritySlugRouteImport } from './routes/celebrity.$slug'
+import { Route as ChatNameRouteImport } from './routes/chat.$name'
+import { Route as PredictionIndexRouteImport } from './routes/prediction.index'
+import { Route as PredictionCareerRouteImport } from './routes/prediction.career'
+import { Route as PredictionFutureRouteImport } from './routes/prediction.future'
+import { Route as PredictionHealthRouteImport } from './routes/prediction.health'
+import { Route as PredictionLoveRouteImport } from './routes/prediction.love'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KundliRoute = KundliRouteImport.update({
-  id: '/kundli',
-  path: '/kundli',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HoroscopeRoute = HoroscopeRouteImport.update({
-  id: '/horoscope',
-  path: '/horoscope',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatbotRoute = ChatbotRouteImport.update({
-  id: '/chatbot',
-  path: '/chatbot',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AstrologersRoute = AstrologersRouteImport.update({
@@ -59,14 +54,74 @@ const AstrologersRoute = AstrologersRouteImport.update({
   path: '/astrologers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ChatbotRoute = ChatbotRouteImport.update({
+  id: '/chatbot',
+  path: '/chatbot',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PredictionIndexRoute = PredictionIndexRouteImport.update({
-  id: '/prediction/',
-  path: '/prediction/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HoroscopeRoute = HoroscopeRouteImport.update({
+  id: '/horoscope',
+  path: '/horoscope',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KundliRoute = KundliRouteImport.update({
+  id: '/kundli',
+  path: '/kundli',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KundliMatchingRoute = KundliMatchingRouteImport.update({
+  id: '/kundli-matching',
+  path: '/kundli-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VedicAstrologyRoute = VedicAstrologyRouteImport.update({
+  id: '/vedic-astrology',
+  path: '/vedic-astrology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalculatorIndexRoute = CalculatorIndexRouteImport.update({
@@ -74,44 +129,9 @@ const CalculatorIndexRoute = CalculatorIndexRouteImport.update({
   path: '/calculator/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PredictionLoveRoute = PredictionLoveRouteImport.update({
-  id: '/prediction/love',
-  path: '/prediction/love',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PredictionHealthRoute = PredictionHealthRouteImport.update({
-  id: '/prediction/health',
-  path: '/prediction/health',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PredictionFutureRoute = PredictionFutureRouteImport.update({
-  id: '/prediction/future',
-  path: '/prediction/future',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PredictionCareerRoute = PredictionCareerRouteImport.update({
-  id: '/prediction/career',
-  path: '/prediction/career',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatNameRoute = ChatNameRouteImport.update({
-  id: '/chat/$name',
-  path: '/chat/$name',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CelebritySlugRoute = CelebritySlugRouteImport.update({
-  id: '/celebrity/$slug',
-  path: '/celebrity/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalculatorVastuRoute = CalculatorVastuRouteImport.update({
-  id: '/calculator/vastu',
-  path: '/calculator/vastu',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalculatorNumerologyRoute = CalculatorNumerologyRouteImport.update({
-  id: '/calculator/numerology',
-  path: '/calculator/numerology',
+const CalculatorLoveRoute = CalculatorLoveRouteImport.update({
+  id: '/calculator/love',
+  path: '/calculator/love',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalculatorMuhuratRoute = CalculatorMuhuratRouteImport.update({
@@ -119,20 +139,69 @@ const CalculatorMuhuratRoute = CalculatorMuhuratRouteImport.update({
   path: '/calculator/muhurat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CalculatorLoveRoute = CalculatorLoveRouteImport.update({
-  id: '/calculator/love',
-  path: '/calculator/love',
+const CalculatorNumerologyRoute = CalculatorNumerologyRouteImport.update({
+  id: '/calculator/numerology',
+  path: '/calculator/numerology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorVastuRoute = CalculatorVastuRouteImport.update({
+  id: '/calculator/vastu',
+  path: '/calculator/vastu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CelebritySlugRoute = CelebritySlugRouteImport.update({
+  id: '/celebrity/$slug',
+  path: '/celebrity/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatNameRoute = ChatNameRouteImport.update({
+  id: '/chat/$name',
+  path: '/chat/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionIndexRoute = PredictionIndexRouteImport.update({
+  id: '/prediction/',
+  path: '/prediction/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionCareerRoute = PredictionCareerRouteImport.update({
+  id: '/prediction/career',
+  path: '/prediction/career',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionFutureRoute = PredictionFutureRouteImport.update({
+  id: '/prediction/future',
+  path: '/prediction/future',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionHealthRoute = PredictionHealthRouteImport.update({
+  id: '/prediction/health',
+  path: '/prediction/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionLoveRoute = PredictionLoveRouteImport.update({
+  id: '/prediction/love',
+  path: '/prediction/love',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/astrologers': typeof AstrologersRoute
   '/chatbot': typeof ChatbotRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/horoscope': typeof HoroscopeRoute
   '/kundli': typeof KundliRoute
+  '/kundli-matching': typeof KundliMatchingRoute
   '/login': typeof LoginRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/vedic-astrology': typeof VedicAstrologyRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -143,17 +212,27 @@ export interface FileRoutesByFullPath {
   '/prediction/future': typeof PredictionFutureRoute
   '/prediction/health': typeof PredictionHealthRoute
   '/prediction/love': typeof PredictionLoveRoute
+  '/blog/': typeof BlogIndexRoute
   '/calculator/': typeof CalculatorIndexRoute
   '/prediction/': typeof PredictionIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/astrologers': typeof AstrologersRoute
   '/chatbot': typeof ChatbotRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/horoscope': typeof HoroscopeRoute
   '/kundli': typeof KundliRoute
+  '/kundli-matching': typeof KundliMatchingRoute
   '/login': typeof LoginRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/vedic-astrology': typeof VedicAstrologyRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -164,18 +243,28 @@ export interface FileRoutesByTo {
   '/prediction/future': typeof PredictionFutureRoute
   '/prediction/health': typeof PredictionHealthRoute
   '/prediction/love': typeof PredictionLoveRoute
+  '/blog': typeof BlogIndexRoute
   '/calculator': typeof CalculatorIndexRoute
   '/prediction': typeof PredictionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/astrologers': typeof AstrologersRoute
   '/chatbot': typeof ChatbotRoute
+  '/contact': typeof ContactRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/horoscope': typeof HoroscopeRoute
   '/kundli': typeof KundliRoute
+  '/kundli-matching': typeof KundliMatchingRoute
   '/login': typeof LoginRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/vedic-astrology': typeof VedicAstrologyRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/calculator/love': typeof CalculatorLoveRoute
   '/calculator/muhurat': typeof CalculatorMuhuratRoute
   '/calculator/numerology': typeof CalculatorNumerologyRoute
@@ -186,6 +275,7 @@ export interface FileRoutesById {
   '/prediction/future': typeof PredictionFutureRoute
   '/prediction/health': typeof PredictionHealthRoute
   '/prediction/love': typeof PredictionLoveRoute
+  '/blog/': typeof BlogIndexRoute
   '/calculator/': typeof CalculatorIndexRoute
   '/prediction/': typeof PredictionIndexRoute
 }
@@ -193,12 +283,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/astrologers'
     | '/chatbot'
+    | '/contact'
+    | '/forgot-password'
     | '/horoscope'
     | '/kundli'
+    | '/kundli-matching'
     | '/login'
+    | '/privacy-policy'
+    | '/reset-password'
     | '/signup'
+    | '/terms'
+    | '/vedic-astrology'
+    | '/blog/$slug'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -209,17 +308,27 @@ export interface FileRouteTypes {
     | '/prediction/future'
     | '/prediction/health'
     | '/prediction/love'
+    | '/blog/'
     | '/calculator/'
     | '/prediction/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/astrologers'
     | '/chatbot'
+    | '/contact'
+    | '/forgot-password'
     | '/horoscope'
     | '/kundli'
+    | '/kundli-matching'
     | '/login'
+    | '/privacy-policy'
+    | '/reset-password'
     | '/signup'
+    | '/terms'
+    | '/vedic-astrology'
+    | '/blog/$slug'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -230,17 +339,27 @@ export interface FileRouteTypes {
     | '/prediction/future'
     | '/prediction/health'
     | '/prediction/love'
+    | '/blog'
     | '/calculator'
     | '/prediction'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/astrologers'
     | '/chatbot'
+    | '/contact'
+    | '/forgot-password'
     | '/horoscope'
     | '/kundli'
+    | '/kundli-matching'
     | '/login'
+    | '/privacy-policy'
+    | '/reset-password'
     | '/signup'
+    | '/terms'
+    | '/vedic-astrology'
+    | '/blog/$slug'
     | '/calculator/love'
     | '/calculator/muhurat'
     | '/calculator/numerology'
@@ -251,18 +370,28 @@ export interface FileRouteTypes {
     | '/prediction/future'
     | '/prediction/health'
     | '/prediction/love'
+    | '/blog/'
     | '/calculator/'
     | '/prediction/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AstrologersRoute: typeof AstrologersRoute
   ChatbotRoute: typeof ChatbotRoute
+  ContactRoute: typeof ContactRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   HoroscopeRoute: typeof HoroscopeRoute
   KundliRoute: typeof KundliRoute
+  KundliMatchingRoute: typeof KundliMatchingRoute
   LoginRoute: typeof LoginRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
+  VedicAstrologyRoute: typeof VedicAstrologyRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   CalculatorLoveRoute: typeof CalculatorLoveRoute
   CalculatorMuhuratRoute: typeof CalculatorMuhuratRoute
   CalculatorNumerologyRoute: typeof CalculatorNumerologyRoute
@@ -273,45 +402,25 @@ export interface RootRouteChildren {
   PredictionFutureRoute: typeof PredictionFutureRoute
   PredictionHealthRoute: typeof PredictionHealthRoute
   PredictionLoveRoute: typeof PredictionLoveRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   CalculatorIndexRoute: typeof CalculatorIndexRoute
   PredictionIndexRoute: typeof PredictionIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kundli': {
-      id: '/kundli'
-      path: '/kundli'
-      fullPath: '/kundli'
-      preLoaderRoute: typeof KundliRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/horoscope': {
-      id: '/horoscope'
-      path: '/horoscope'
-      fullPath: '/horoscope'
-      preLoaderRoute: typeof HoroscopeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chatbot': {
-      id: '/chatbot'
-      path: '/chatbot'
-      fullPath: '/chatbot'
-      preLoaderRoute: typeof ChatbotRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/astrologers': {
@@ -321,18 +430,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AstrologersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/chatbot': {
+      id: '/chatbot'
+      path: '/chatbot'
+      fullPath: '/chatbot'
+      preLoaderRoute: typeof ChatbotRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/prediction/': {
-      id: '/prediction/'
-      path: '/prediction'
-      fullPath: '/prediction/'
-      preLoaderRoute: typeof PredictionIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/horoscope': {
+      id: '/horoscope'
+      path: '/horoscope'
+      fullPath: '/horoscope'
+      preLoaderRoute: typeof HoroscopeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kundli': {
+      id: '/kundli'
+      path: '/kundli'
+      fullPath: '/kundli'
+      preLoaderRoute: typeof KundliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kundli-matching': {
+      id: '/kundli-matching'
+      path: '/kundli-matching'
+      fullPath: '/kundli-matching'
+      preLoaderRoute: typeof KundliMatchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vedic-astrology': {
+      id: '/vedic-astrology'
+      path: '/vedic-astrology'
+      fullPath: '/vedic-astrology'
+      preLoaderRoute: typeof VedicAstrologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calculator/': {
@@ -342,60 +535,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/prediction/love': {
-      id: '/prediction/love'
-      path: '/prediction/love'
-      fullPath: '/prediction/love'
-      preLoaderRoute: typeof PredictionLoveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prediction/health': {
-      id: '/prediction/health'
-      path: '/prediction/health'
-      fullPath: '/prediction/health'
-      preLoaderRoute: typeof PredictionHealthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prediction/future': {
-      id: '/prediction/future'
-      path: '/prediction/future'
-      fullPath: '/prediction/future'
-      preLoaderRoute: typeof PredictionFutureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prediction/career': {
-      id: '/prediction/career'
-      path: '/prediction/career'
-      fullPath: '/prediction/career'
-      preLoaderRoute: typeof PredictionCareerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chat/$name': {
-      id: '/chat/$name'
-      path: '/chat/$name'
-      fullPath: '/chat/$name'
-      preLoaderRoute: typeof ChatNameRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/celebrity/$slug': {
-      id: '/celebrity/$slug'
-      path: '/celebrity/$slug'
-      fullPath: '/celebrity/$slug'
-      preLoaderRoute: typeof CelebritySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calculator/vastu': {
-      id: '/calculator/vastu'
-      path: '/calculator/vastu'
-      fullPath: '/calculator/vastu'
-      preLoaderRoute: typeof CalculatorVastuRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calculator/numerology': {
-      id: '/calculator/numerology'
-      path: '/calculator/numerology'
-      fullPath: '/calculator/numerology'
-      preLoaderRoute: typeof CalculatorNumerologyRouteImport
+    '/calculator/love': {
+      id: '/calculator/love'
+      path: '/calculator/love'
+      fullPath: '/calculator/love'
+      preLoaderRoute: typeof CalculatorLoveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calculator/muhurat': {
@@ -405,11 +549,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorMuhuratRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/calculator/love': {
-      id: '/calculator/love'
-      path: '/calculator/love'
-      fullPath: '/calculator/love'
-      preLoaderRoute: typeof CalculatorLoveRouteImport
+    '/calculator/numerology': {
+      id: '/calculator/numerology'
+      path: '/calculator/numerology'
+      fullPath: '/calculator/numerology'
+      preLoaderRoute: typeof CalculatorNumerologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator/vastu': {
+      id: '/calculator/vastu'
+      path: '/calculator/vastu'
+      fullPath: '/calculator/vastu'
+      preLoaderRoute: typeof CalculatorVastuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/celebrity/$slug': {
+      id: '/celebrity/$slug'
+      path: '/celebrity/$slug'
+      fullPath: '/celebrity/$slug'
+      preLoaderRoute: typeof CelebritySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/$name': {
+      id: '/chat/$name'
+      path: '/chat/$name'
+      fullPath: '/chat/$name'
+      preLoaderRoute: typeof ChatNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prediction/': {
+      id: '/prediction/'
+      path: '/prediction'
+      fullPath: '/prediction/'
+      preLoaderRoute: typeof PredictionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prediction/career': {
+      id: '/prediction/career'
+      path: '/prediction/career'
+      fullPath: '/prediction/career'
+      preLoaderRoute: typeof PredictionCareerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prediction/future': {
+      id: '/prediction/future'
+      path: '/prediction/future'
+      fullPath: '/prediction/future'
+      preLoaderRoute: typeof PredictionFutureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prediction/health': {
+      id: '/prediction/health'
+      path: '/prediction/health'
+      fullPath: '/prediction/health'
+      preLoaderRoute: typeof PredictionHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prediction/love': {
+      id: '/prediction/love'
+      path: '/prediction/love'
+      fullPath: '/prediction/love'
+      preLoaderRoute: typeof PredictionLoveRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -417,12 +617,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AstrologersRoute: AstrologersRoute,
   ChatbotRoute: ChatbotRoute,
+  ContactRoute: ContactRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   HoroscopeRoute: HoroscopeRoute,
   KundliRoute: KundliRoute,
+  KundliMatchingRoute: KundliMatchingRoute,
   LoginRoute: LoginRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
+  VedicAstrologyRoute: VedicAstrologyRoute,
+  BlogSlugRoute: BlogSlugRoute,
   CalculatorLoveRoute: CalculatorLoveRoute,
   CalculatorMuhuratRoute: CalculatorMuhuratRoute,
   CalculatorNumerologyRoute: CalculatorNumerologyRoute,
@@ -433,6 +642,7 @@ const rootRouteChildren: RootRouteChildren = {
   PredictionFutureRoute: PredictionFutureRoute,
   PredictionHealthRoute: PredictionHealthRoute,
   PredictionLoveRoute: PredictionLoveRoute,
+  BlogIndexRoute: BlogIndexRoute,
   CalculatorIndexRoute: CalculatorIndexRoute,
   PredictionIndexRoute: PredictionIndexRoute,
 }

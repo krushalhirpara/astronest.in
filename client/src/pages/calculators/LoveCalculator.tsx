@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Heart, Sparkles, ArrowLeft, Loader2 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
 
 const LoveCalculator = () => {
   const [name1, setName1] = useState('');
@@ -8,10 +10,6 @@ const LoveCalculator = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ score: number; message: string } | null>(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    document.title = "AstroNest - Love Calculator";
-  }, []);
 
   const calculateLove = () => {
     setError('');
@@ -46,9 +44,15 @@ const LoveCalculator = () => {
   };
 
   return (
-    <div className="pt-32 pb-12 min-h-screen">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <Link to="/calculator" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
+    <>
+      <Seo
+        title={pageSeoConfig.calculatorLove.title}
+        description={pageSeoConfig.calculatorLove.description}
+        canonical={pageSeoConfig.calculatorLove.canonical}
+      />
+      <div className="pt-32 pb-12 min-h-screen">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <Link to="/calculator" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Calculators
         </Link>
         
@@ -117,7 +121,8 @@ const LoveCalculator = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default LoveCalculator;

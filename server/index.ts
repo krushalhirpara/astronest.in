@@ -244,6 +244,28 @@ app.all('/api/*', (req, res) => {
   res.status(404).json({ error: 'API endpoint not found' });
 });
 
+// Explicit handler for robots.txt
+app.get('/robots.txt', (req, res) => {
+  const robotsPath = path.join(clientDistPath, 'robots.txt');
+  if (fs.existsSync(robotsPath)) {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(robotsPath);
+  }
+  res.type('text/plain').send("User-agent: *\nAllow: /\nDisallow: /login\nDisallow: /signup\nDisallow: /forgot-password\nDisallow: /reset-password\nDisallow: /api/\n\nSitemap: https://astronest.in/sitemap.xml\n");
+});
+
+// Explicit handler for sitemap.xml
+app.get('/sitemap.xml', (req, res) => {
+  const sitemapPath = path.join(clientDistPath, 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(sitemapPath);
+  }
+  res.status(404).send('Sitemap not found');
+});
+
 // SPA Routing Fallback: serve index.html for all frontend GET requests
 app.get('*', (req, res) => {
   const indexPath = path.join(clientDistPath, 'index.html');

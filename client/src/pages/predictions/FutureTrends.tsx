@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TrendingUp, ArrowLeft, Loader2, Zap, Target } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
 
 const zodiacs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const focusAreas = ['Growth', 'Stability', 'Adventure', 'Spirituality'];
@@ -11,10 +13,6 @@ const FutureTrends = () => {
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState<{ forecast: string; score: number; keyDate: string } | null>(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    document.title = "AstroNest - Future Trends";
-  }, []);
 
   const generateFutureTrends = () => {
     setError('');
@@ -42,7 +40,9 @@ const FutureTrends = () => {
   };
 
   return (
-    <div className="pt-32 pb-12 min-h-screen">
+    <>
+      <Seo metadata={pageSeoConfig.predictionFuture} />
+      <div className="pt-32 pb-12 min-h-screen">
       <div className="container mx-auto px-4 max-w-2xl">
         <Link to="/prediction" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Predictions
@@ -128,7 +128,8 @@ const FutureTrends = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default FutureTrends;

@@ -34,6 +34,16 @@ const navItems: NavItem[] = [
   { label: 'Astrologers', to: '/astrologers' },
   { label: 'AI Chatbot', to: '/chatbot' },
   { 
+    label: 'Kundli', 
+    to: '/kundli',
+    dropdownItems: [
+      { label: 'Free Janam Kundli', to: '/kundli', icon: <Star className="w-4 h-4" /> },
+      { label: 'Kundli Matching', to: '/kundli-matching', icon: <Heart className="w-4 h-4" /> },
+      { label: 'Vedic Astrology Guide', to: '/vedic-astrology', icon: <Compass className="w-4 h-4" /> },
+    ]
+  },
+  { label: 'Horoscope', to: '/horoscope' },
+  { 
     label: 'Calculator', 
     to: '/calculator', 
     dropdownItems: [
@@ -43,8 +53,6 @@ const navItems: NavItem[] = [
       { label: 'Muhurat', to: '/calculator/muhurat', icon: <Star className="w-4 h-4" /> },
     ] 
   },
-  { label: 'Horoscope', to: '/horoscope' },
-  { label: 'Kundli', to: '/kundli' },
   { 
     label: 'Prediction', 
     to: '/prediction', 
@@ -56,6 +64,7 @@ const navItems: NavItem[] = [
       { label: 'Future Trends', to: '/prediction/future', icon: <TrendingUp className="w-4 h-4" /> },
     ] 
   },
+  { label: 'Blog', to: '/blog' },
 ];
 
 export function Navbar() {

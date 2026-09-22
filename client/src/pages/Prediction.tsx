@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Zap, TrendingUp, ShieldAlert, Briefcase, Heart, Sparkles, Loader2, RefreshCw, Flame, Award } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
+import { getBreadcrumbSchema } from '@/seo/structuredData';
 
 const predictions = [
   { 
@@ -59,9 +62,10 @@ const Prediction = () => {
   } | null>(null);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    document.title = "AstroNest - Personalized Predictions & Love Calculator";
-  }, []);
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "Predictions", url: "/prediction" }
+  ];
 
   const handleCalculateLove = (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,7 +128,14 @@ const Prediction = () => {
   };
 
   return (
-    <div className="pt-32 pb-16 min-h-screen text-white">
+    <>
+      <Seo
+        title={pageSeoConfig.prediction.title}
+        description={pageSeoConfig.prediction.description}
+        canonical={pageSeoConfig.prediction.canonical}
+        structuredData={[getBreadcrumbSchema(breadcrumbs)]}
+      />
+      <div className="pt-32 pb-16 min-h-screen text-white">
       <div className="container mx-auto px-4 max-w-6xl">
         
         {/* Header */}
@@ -323,7 +334,8 @@ const Prediction = () => {
 
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default Prediction;

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Moon, Sun, Stars, Sparkles, Loader2, Calendar, Gem, Zap, Quote } from 'lucide-react';
+import { Moon, Sun, Stars, Sparkles, Loader2, Calendar, Gem, Zap, Quote, ArrowRight } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
+import { getBreadcrumbSchema } from '@/seo/structuredData';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '';
 
 const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
@@ -58,14 +62,19 @@ const Horoscope = () => {
         }),
       });
 
-      const result = await response.json();
-      console.log("[Horoscope] API Result:", result);
+      const resData = await response.json();
+      if (!response.ok) throw new Error(resData.error || "Failed to fetch horoscope");
 
-      if (!response.ok) {
-        throw new Error(result.error || 'The stars are momentarily obscured.');
+      // Handle cases where response might be wrapped or already parsed
+      let parsed = resData;
+      if (typeof resData.reply === 'string') {
+        try {
+          parsed = JSON.parse(resData.reply);
+        } catch (e) {
+          parsed = { description: resData.reply, mood: "Shubh", lucky_number: "7", advice: "Maintain mindfulness." };
+        }
       }
-
-      setData(result);
+      setData(parsed);
     } catch (err: any) {
       console.error("[Horoscope] Fetch Error:", err);
       setError(err.message || "The stars are momentarily obscured. Please try again later.");
@@ -75,12 +84,24 @@ const Horoscope = () => {
   };
 
   useEffect(() => {
-    document.title = `AstroNest - ${selectedSign} Horoscope`;
     fetchHoroscope(selectedSign, forecastType);
   }, [selectedSign, forecastType]);
 
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "Daily Horoscope", url: "/horoscope" },
+    { name: `${selectedSign} Horoscope`, url: "/horoscope" }
+  ];
+
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-background">
+    <>
+      <Seo
+        title={`Daily ${selectedSign} Horoscope – Today's ${forecastType} Forecast | AstroNest`}
+        description={`Read today's free ${forecastType.toLowerCase()} horoscope for ${selectedSign}. Planetary alignments, daily mood, lucky numbers, and Vedic guidance.`}
+        canonical="https://astronest.in/horoscope"
+        structuredData={[getBreadcrumbSchema(breadcrumbs)]}
+      />
+      <div className="pt-32 pb-24 min-h-screen bg-background">
       <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <div className="container mx-auto px-4">
         {/* Header Section */}
@@ -209,9 +230,39 @@ const Horoscope = () => {
               ) : null}
             </div>
           </div>
+
+          {/* Internal Cross Links */}
+          <div className="mt-12 p-6 rounded-3xl glass border border-white/10 text-center">
+            <h3 className="text-lg font-bold text-white mb-2">Explore Complete Vedic Calculations</h3>
+            <p className="text-xs text-gray-400 max-w-lg mx-auto mb-4">
+              Daily horoscopes reflect transit energies. For your deep personal destiny and planetary periods, generate your Janam Kundli or calculate marriage compatibility.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                to="/kundli"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-semibold hover:bg-purple-600/50 transition-colors"
+              >
+                Free Janam Kundli
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                to="/kundli-matching"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:bg-white/10 transition-colors"
+              >
+                Kundli Matching (36 Gunas)
+              </Link>
+              <Link
+                to="/vedic-astrology"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:bg-white/10 transition-colors"
+              >
+                Vedic Astrology Guide
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

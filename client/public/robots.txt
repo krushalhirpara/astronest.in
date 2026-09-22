@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow private user and authentication routes
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /api/
+
+Sitemap: https://astronest.in/sitemap.xml

@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Compass, ArrowLeft, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
 
 const Vastu = () => {
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ score: number; suggestion: string; status: 'good' | 'average' | 'bad' } | null>(null);
-
-  useEffect(() => {
-    document.title = "AstroNest - Vastu";
-  }, []);
 
   const checkVastu = () => {
     if (!selectedArea) return;
@@ -32,9 +30,15 @@ const Vastu = () => {
   };
 
   return (
-    <div className="pt-32 pb-12 min-h-screen">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <Link to="/calculator" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
+    <>
+      <Seo
+        title={pageSeoConfig.calculatorVastu.title}
+        description={pageSeoConfig.calculatorVastu.description}
+        canonical={pageSeoConfig.calculatorVastu.canonical}
+      />
+      <div className="pt-32 pb-12 min-h-screen">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <Link to="/calculator" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Calculators
         </Link>
         
@@ -106,7 +110,8 @@ const Vastu = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default Vastu;

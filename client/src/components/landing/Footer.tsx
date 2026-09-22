@@ -39,13 +39,19 @@ export function Footer() {
                 <Link to="/kundli" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Free Janam Kundli</Link>
               </li>
               <li>
+                <Link to="/kundli-matching" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Kundli Matching</Link>
+              </li>
+              <li>
+                <Link to="/vedic-astrology" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Vedic Astrology</Link>
+              </li>
+              <li>
                 <Link to="/chatbot" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">AI Astro Chatbot</Link>
               </li>
               <li>
                 <Link to="/astrologers" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Vedic Astrologers</Link>
               </li>
               <li>
-                <Link to="/prediction" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Predictions</Link>
+                <Link to="/blog" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Astrology Blog</Link>
               </li>
             </ul>
           </div>
@@ -66,7 +72,7 @@ export function Footer() {
                 <Link to="/calculator/muhurat" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Shubh Muhurat</Link>
               </li>
               <li>
-                <Link to="/calculator" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">All Calculators</Link>
+                <Link to="/prediction" className="text-sm text-gray-400 hover:text-purple-400 transition-colors">Predictions</Link>
               </li>
             </ul>
           </div>
@@ -74,7 +80,7 @@ export function Footer() {
           <div className="space-y-6">
             <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white">Trust & Safety</h4>
             <p className="text-[11px] text-gray-400 leading-relaxed">
-              Your data is encrypted and private. We never share your birth details with third parties.
+              Your birth data is 256-bit encrypted. We never share or sell personal birth charts to third parties.
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
@@ -83,19 +89,26 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                 <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                PCI-DSS Compliant
+                PCI-DSS Level 1 Compliant
               </div>
+            </div>
+            <div className="pt-2">
+              <Link to="/contact" className="text-xs text-purple-400 hover:underline font-medium">
+                Customer Support & Help
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[11px] text-gray-400 uppercase tracking-widest font-bold">
-            © 2024 AstroNest AI. All celestial rights reserved.
+            © 2026 AstroNest. All celestial rights reserved.
           </p>
-          <div className="flex gap-8">
-            <a href="#" className="text-[11px] text-gray-400 hover:text-white uppercase tracking-widest font-bold">Privacy Policy</a>
-            <a href="#" className="text-[11px] text-gray-400 hover:text-white uppercase tracking-widest font-bold">Terms of Service</a>
+          <div className="flex flex-wrap gap-6 text-[11px] text-gray-400 uppercase tracking-widest font-bold">
+            <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

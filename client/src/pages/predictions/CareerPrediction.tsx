@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Briefcase, ArrowLeft, Loader2, TrendingUp, DollarSign } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
 
 const zodiacs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 
@@ -10,10 +12,6 @@ const CareerPrediction = () => {
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState<{ forecast: string; luck: number; success: string } | null>(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    document.title = "AstroNest - Career Prediction";
-  }, []);
 
   const generateCareerPrediction = () => {
     setError('');
@@ -40,7 +38,9 @@ const CareerPrediction = () => {
   const setResult = (val: any) => setPrediction(val); // Shorthand helper
 
   return (
-    <div className="pt-32 pb-12 min-h-screen">
+    <>
+      <Seo metadata={pageSeoConfig.predictionCareer} />
+      <div className="pt-32 pb-12 min-h-screen">
       <div className="container mx-auto px-4 max-w-2xl">
         <Link to="/prediction" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Predictions
@@ -125,6 +125,7 @@ const CareerPrediction = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 

@@ -50,7 +50,8 @@ export function Hero() {
               style={{ fontFamily: 'Samarkan, sans-serif' }} 
               className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 text-center leading-[1.3] tracking-wide drop-shadow-md py-2"
             >
-              Bharat ka Super or Powerful<br/>Astro Platform
+              Online Kundli & Vedic Astrology<br/>
+              <span className="text-2xl sm:text-4xl md:text-5xl opacity-90 font-poppins font-bold tracking-normal">Bharat's AI Astro Platform</span>
             </h1>
           </div>
           
@@ -79,7 +80,7 @@ export function Hero() {
           <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-purple-900/20 via-black/40 to-black border border-white/20 shadow-2xl aspect-video w-full max-w-4xl mx-auto transition-all duration-700 hover:shadow-[0_0_60px_rgba(168,85,247,0.3)]">
               <img
                 src={cosmicHero}
-                alt="AI Astrology Hero"
+                alt="AstroNest Online Janam Kundli & Vedic Astrology Platform"
                 width={1200}
                 height={675}
                 loading="eager"

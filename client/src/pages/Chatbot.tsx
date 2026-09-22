@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Bot, Send, Sparkles, Lock, Loader2 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useAuth } from '@/hooks/useAuth';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
+import { getBreadcrumbSchema } from '@/seo/structuredData';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '';
 
 const Chatbot = () => {
@@ -11,6 +14,11 @@ const Chatbot = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "AI Astro Chatbot", url: "/chatbot" }
+  ];
 
   const handleSend = async () => {
     if (!inputText.trim() || isTyping) return;
@@ -77,9 +85,6 @@ const Chatbot = () => {
     }
   };
 
-  useEffect(() => {
-    document.title = "AstroNest - AI Chatbot";
-  }, []);
 
   if (isLoading) {
     return (
@@ -90,7 +95,14 @@ const Chatbot = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-28 pb-12">
+    <>
+      <Seo
+        title={pageSeoConfig.chatbot.title}
+        description={pageSeoConfig.chatbot.description}
+        canonical={pageSeoConfig.chatbot.canonical}
+        structuredData={[getBreadcrumbSchema(breadcrumbs)]}
+      />
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-28 pb-12">
       <div className="w-full max-w-[700px]">
         <div className="glass rounded-3xl overflow-hidden flex flex-col h-[80vh] shadow-glow">
           {/* Chat Header */}
@@ -155,7 +167,8 @@ const Chatbot = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };
 
 export default Chatbot;

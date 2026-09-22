@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Star, ArrowLeft, Loader2, Calendar, Clock } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { Seo } from '@/seo/Seo';
+import { pageSeoConfig } from '@/seo/seoConfig';
 
 const Muhurat = () => {
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ date: string; time: string; nakshatra: string; tithi: string }[] | null>(null);
-
-  useEffect(() => {
-    document.title = "AstroNest - Muhurat";
-  }, []);
 
   const findMuhurat = (event: string) => {
     setSelectedEvent(event);
@@ -31,7 +29,9 @@ const Muhurat = () => {
   };
 
   return (
-    <div className="pt-32 pb-12 min-h-screen">
+    <>
+      <Seo metadata={pageSeoConfig.calculatorMuhurat} />
+      <div className="pt-32 pb-12 min-h-screen">
       <div className="container mx-auto px-4 max-w-2xl">
         <Link to="/calculator" className="inline-flex items-center gap-2 text-muted-foreground hover:text-white mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Calculators
@@ -109,6 +109,7 @@ const Muhurat = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 
